@@ -1,0 +1,30 @@
+<!-- wp:template-part {"slug":"header","tagName":"header"} /-->
+
+<!-- wp:group {"tagName":"main","className":"rm-container","layout":{"type":"constrained"}} -->
+<main class="wp-block-group rm-container">
+  <!-- wp:paragraph {"className":"rm-micro-label"} -->
+  <p class="rm-micro-label">(Notes from the field)</p>
+  <!-- /wp:paragraph -->
+
+  <!-- wp:heading {"level":1} -->
+  <h1><em class="accent">support</em> writing</h1>
+  <!-- /wp:heading -->
+
+  <!-- wp:query {"queryId":0,"query":{"perPage":10,"pages":0,"offset":0,"postType":"post","order":"desc","orderBy":"date","author":"","search":"","exclude":[],"sticky":"","inherit":false}} -->
+  <div class="wp-block-query">
+    <!-- wp:post-template -->
+      <!-- wp:post-title {"level":2,"isLink":true} /-->
+      <!-- wp:post-date {"isLink":false,"className":"rm-post-meta"} /-->
+      <!-- wp:post-excerpt /-->
+    <!-- /wp:post-template -->
+    <!-- wp:query-no-results -->
+      <!-- wp:paragraph -->
+      <p>First post coming soon.</p>
+      <!-- /wp:paragraph -->
+    <!-- /wp:query-no-results -->
+  </div>
+  <!-- /wp:query -->
+</main>
+<!-- /wp:group -->
+
+<!-- wp:template-part {"slug":"footer","tagName":"footer"} /-->

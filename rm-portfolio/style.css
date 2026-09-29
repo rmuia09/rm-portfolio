@@ -1,0 +1,372 @@
+/*
+Theme Name: RM Portfolio
+Theme URI: https://nrichardmuia.com
+Author: Richard Muia
+Description: Editorial portfolio theme for Richard Muia — QA & Support Operations. Custom block theme: big display type, micro-labels, numbered work lists, scroll reveals.
+Version: 2.1
+Requires at least: 6.4
+Requires PHP: 7.4
+License: GNU General Public License v2 or later
+Text Domain: rm-portfolio
+Tags: portfolio, block-theme, editor-style
+*/
+
+:root {
+  --bg: #faf8f4;
+  --text: #141414;
+  --muted: #6b6b6b;
+  --accent: #d9480f;
+  --accent-dark: #b23c0c;
+  --border: #e2ddd4;
+  --card-bg: #ffffff;
+  --font-display: "Space Grotesk", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  --font-body: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+}
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+html { scroll-behavior: smooth; }
+
+body {
+  font-family: var(--font-body);
+  background: var(--bg);
+  color: var(--text);
+  line-height: 1.65;
+  font-size: 17px;
+  -webkit-font-smoothing: antialiased;
+}
+
+::selection { background: var(--accent); color: #fff; }
+
+/* ---------- Micro labels: ( LIKE THIS ) ---------- */
+.rm-micro-label,
+.wp-block-paragraph.rm-micro-label {
+  font-family: var(--font-display);
+  font-size: 0.75rem;
+  font-weight: 500;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--muted);
+  margin-bottom: 24px;
+}
+
+/* ---------- Navigation ---------- */
+/* Sticky must live on the template-part WRAPPER (only ~57px tall itself —
+   a sticky child can't escape it), pinned as first child of wp-site-blocks. */
+.wp-site-blocks > .wp-block-template-part:first-child {
+  position: sticky;
+  top: 0;
+  z-index: 100;
+}
+.rm-nav {
+  background: rgba(250, 248, 244, 0.92);
+  /* no backdrop-filter here: it traps the mobile menu's position:fixed
+     overlay inside the nav bar (fixed children anchor to it) */
+  border-bottom: 1px solid var(--border);
+}
+/* Don't let WordPress's logged-in admin bar cover the sticky nav. */
+.admin-bar .wp-site-blocks > .wp-block-template-part:first-child { top: 32px; }
+@media (max-width: 782px) { .admin-bar .wp-site-blocks > .wp-block-template-part:first-child { top: 46px; } }
+.rm-nav .rm-nav__inner {
+  max-width: 1080px;
+  margin: 0 auto;
+  padding: 14px 24px;
+}
+.rm-nav .wp-block-site-title a,
+.rm-brand a {
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: 1.15rem;
+  text-decoration: none;
+  color: var(--text) !important;
+}
+.rm-nav .wp-block-navigation {
+  font-family: var(--font-display);
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  font-size: 0.82rem;
+}
+.rm-nav .wp-block-navigation a { color: var(--text); }
+.rm-nav .wp-block-navigation a:hover,
+.rm-nav .current-menu-item > a { color: var(--accent); }
+
+/* ---------- Layout ---------- */
+.rm-container,
+.entry-content {
+  max-width: 880px;
+  margin-left: auto;
+  margin-right: auto;
+  padding-left: 24px;
+  padding-right: 24px;
+}
+.wp-site-blocks .rm-section { padding: 64px 0; }
+
+/* WordPress's constrained layout auto-centers narrow children — this design
+   is left-aligned everywhere, so pin section children to the left edge. */
+.rm-section.is-layout-constrained > * { margin-left: 0 !important; margin-right: 0 !important; }
+
+/* ---------- Display typography ---------- */
+h1, h2, h3 {
+  font-family: var(--font-display);
+  letter-spacing: -0.02em;
+  color: var(--text);
+}
+h1 { font-size: clamp(2rem, 5vw, 3.2rem); line-height: 1.1; margin-bottom: 18px; }
+h2 { font-size: clamp(1.6rem, 3.4vw, 2.4rem); margin-bottom: 14px; }
+h3 { font-size: 1.2rem; margin: 26px 0 10px; }
+
+.rm-display {
+  font-family: var(--font-display) !important;
+  font-weight: 700;
+  font-size: clamp(3rem, 10vw, 6.5rem) !important;
+  line-height: 0.98 !important;
+  letter-spacing: -0.03em;
+  margin-bottom: 8px;
+}
+.rm-display--outline {
+  color: transparent;
+  -webkit-text-stroke: 2px var(--text);
+}
+.rm-display--outline .accent,
+.rm-display--outline span { -webkit-text-stroke-color: var(--accent); }
+.rm-hero-hi {
+  font-family: var(--font-display);
+  font-size: clamp(1.1rem, 2.4vw, 1.5rem) !important;
+  margin-bottom: 18px;
+}
+.rm-scroll-hint {
+  font-family: var(--font-display);
+  font-size: 0.75rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--muted);
+  margin-top: 48px;
+  animation: rm-nudge 2.4s ease-in-out infinite;
+}
+@keyframes rm-nudge {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(6px); }
+}
+
+p { margin-bottom: 14px; }
+a { color: var(--accent); }
+a:hover { color: var(--accent-dark); }
+.accent { color: var(--accent); }
+em { font-style: italic; }
+.rm-lead { font-size: 1.15rem; color: var(--muted); max-width: 620px; }
+
+/* ---------- Proof strip ---------- */
+.rm-proof { display: grid !important; grid-template-columns: repeat(4, 1fr); gap: 16px; margin: 40px 0 8px; }
+@media (max-width: 860px) { .rm-proof { grid-template-columns: repeat(2, 1fr); } }
+@media (max-width: 480px) { .rm-proof { grid-template-columns: 1fr; } }
+.rm-proof__item {
+  background: var(--card-bg);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 20px 22px;
+}
+.rm-proof__num {
+  font-family: var(--font-display);
+  font-size: 2rem;
+  font-weight: 700;
+  color: var(--accent);
+  letter-spacing: -0.02em;
+  margin: 0;
+}
+.rm-proof__label { font-size: 0.88rem; color: var(--muted); margin: 0; }
+
+/* ---------- Numbered work list ---------- */
+.rm-worklist,
+.wp-block-list.rm-worklist { list-style: none; margin: 8px 0; padding: 0; }
+.rm-worklist > li,
+.wp-block-list-item { border-top: 1px solid var(--border); }
+.rm-worklist > li:last-child { border-bottom: 1px solid var(--border); }
+.rm-worklist a {
+  display: flex;
+  align-items: baseline;
+  gap: 20px;
+  padding: 24px 8px;
+  text-decoration: none;
+  color: var(--text);
+  transition: background 0.15s ease, padding-left 0.15s ease;
+}
+.rm-worklist a:hover { background: #f1ece3; padding-left: 18px; }
+.rm-worklist .rm-num {
+  font-family: var(--font-display);
+  font-size: 0.85rem;
+  color: var(--accent);
+  font-weight: 700;
+  white-space: nowrap;
+}
+.rm-worklist .rm-title {
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: clamp(1.25rem, 3vw, 1.9rem);
+  letter-spacing: -0.01em;
+  line-height: 1.2;
+  display: block;
+}
+.rm-worklist .rm-sub {
+  display: block;
+  font-family: var(--font-body);
+  font-size: 0.85rem;
+  font-weight: 400;
+  color: var(--muted);
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  margin-top: 4px;
+}
+.rm-worklist a:hover .rm-title { color: var(--accent); }
+.rm-worklist a::after {
+  content: "→";
+  margin-left: auto;
+  font-family: var(--font-display);
+  font-size: 1.3rem;
+  color: var(--muted);
+  white-space: nowrap;
+}
+.rm-worklist a:hover::after { color: var(--accent); }
+@media (max-width: 640px) { .rm-worklist a::after { display: none; } }
+
+/* ---------- Triplet ---------- */
+.rm-triplet {
+  font-family: var(--font-display);
+  font-size: clamp(1.4rem, 3.5vw, 2.2rem);
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  margin: 24px 0;
+}
+.rm-triplet .accent { color: var(--accent); }
+
+/* ---------- Case study cards (Work page cascade) ---------- */
+.rm-cards { display: grid; gap: 18px; margin-top: 20px; margin-bottom: 40px; }
+.rm-card {
+  background: var(--card-bg);
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  padding: 26px 28px;
+  transition: border-color 0.15s ease;
+}
+.rm-card:hover { border-color: var(--accent); }
+.rm-card h3 { margin-top: 0; }
+.rm-card .rm-card__meta { font-size: 0.85rem; color: var(--muted); margin-bottom: 10px; }
+.rm-card--link { text-decoration: none; color: inherit; display: block; }
+.rm-card--link:hover h3 { color: var(--accent); }
+.rm-card p { margin: 0; font-size: 0.95rem; color: var(--text); }
+
+/* ---------- Nav dropdown (submenu) ---------- */
+.rm-nav .wp-block-navigation .wp-block-navigation__submenu-container {
+  background: var(--card-bg);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 6px 0;
+  min-width: 240px;
+}
+.rm-nav .wp-block-navigation__submenu-container .wp-block-navigation-item__content {
+  color: var(--text);
+  text-transform: none;
+  letter-spacing: 0.02em;
+  padding: 6px 18px;
+  display: block;
+}
+.rm-nav .wp-block-navigation__submenu-container .wp-block-navigation-item__content:hover {
+  color: var(--accent);
+}
+
+/* ---------- Case study blocks ---------- */
+.rm-cs-block { margin: 36px 0; }
+.rm-cs-label {
+  font-family: var(--font-display);
+  font-size: 0.78rem;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--accent);
+  margin-bottom: 6px;
+}
+.rm-cs-outcome {
+  background: var(--card-bg);
+  border: 1px solid var(--border);
+  border-left: 4px solid var(--accent);
+  padding: 18px 22px;
+  border-radius: 0 12px 12px 0;
+  margin: 18px 0;
+}
+
+/* ---------- Buttons ---------- */
+.wp-block-button__link {
+  background: var(--text) !important;
+  color: #fff !important;
+  border-radius: 999px !important;
+  padding: 12px 26px !important;
+  font-family: var(--font-display);
+  font-weight: 600;
+  font-size: 0.95rem;
+}
+.wp-block-button__link:hover { background: var(--accent) !important; }
+.wp-block-button.is-style-outline .wp-block-button__link {
+  background: transparent !important;
+  color: var(--text) !important;
+  border: 1.5px solid var(--text);
+}
+.wp-block-button.is-style-outline .wp-block-button__link:hover {
+  background: var(--accent) !important;
+  border-color: var(--accent) !important;
+  color: #fff !important;
+}
+
+/* ---------- Article / post ---------- */
+.rm-post-meta {
+  font-family: var(--font-display);
+  color: var(--muted);
+  font-size: 0.85rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  margin-bottom: 36px;
+}
+.rm-checklist { list-style: none; margin: 16px 0; padding: 0; }
+.rm-checklist li { padding-left: 28px; position: relative; margin-bottom: 10px; }
+.rm-checklist li::before { content: "✓"; position: absolute; left: 0; color: var(--accent); font-weight: 700; }
+
+/* ---------- Contact footer ---------- */
+.socials { display: flex; flex-wrap: wrap; gap: 10px 28px; margin-top: 28px; padding: 0; list-style: none; }
+.socials a {
+  font-family: var(--font-display);
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  font-size: 0.85rem;
+  text-decoration: none;
+  color: var(--text);
+  border-bottom: 2px solid var(--accent);
+  padding-bottom: 2px;
+}
+.rm-contact .socials a:hover { color: var(--accent); }
+
+/* ---------- Footer ---------- */
+.rm-footer {
+  border-top: 1px solid var(--border);
+  padding: 28px 24px;
+  text-align: center;
+  color: var(--muted);
+  font-size: 0.85rem;
+  font-family: var(--font-display);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+.rm-footer a { color: var(--muted); }
+.rm-footer a:hover { color: var(--accent); }
+
+/* ---------- Scroll reveal ---------- */
+.rm-reveal { opacity: 0; transform: translateY(24px); transition: opacity 0.6s ease, transform 0.6s ease; }
+.rm-reveal.rm-visible { opacity: 1; transform: translateY(0); }
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  .rm-reveal { opacity: 1; transform: none; transition: none; }
+  .rm-scroll-hint { animation: none; }
+}
+
+/* ---------- Mobile ---------- */
+@media (max-width: 640px) {
+  .rm-nav .rm-nav__inner { padding: 12px 20px; }
+  .rm-container, .entry-content { padding-left: 20px; padding-right: 20px; }
+}
